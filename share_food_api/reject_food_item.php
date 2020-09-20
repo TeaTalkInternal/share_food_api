@@ -25,7 +25,7 @@ if ( mysqli_multi_query( $conn, $sql ) ) {
 
     echo '{';
     echo '"status_code" : 200,';
-    echo '"status_message" : "Successfully approved"';
+    echo '"status_message" : "Rejected food item request"';
     echo '}';
 
 } else {

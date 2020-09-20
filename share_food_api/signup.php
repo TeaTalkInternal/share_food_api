@@ -12,14 +12,15 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$jsonInput = file_get_contents( 'php://input' );
-$decoded = json_decode( $jsonInput, TRUE );
+$data = json_decode(file_get_contents('php://input'), true);
 
-$username_val             = $decoded['username'];
-$email_val             = $decoded['email'];
-$phone_number_val        = $decoded['phonenumber'];
+$username_val             = $data['username'];
+$email_val             = $data['email'];
+$phone_number_val        = $data['phonenumber'];
 
 $selectsql = "SELECT  username,email,phonenumber FROM HFLogin WHERE phonenumber = '".$phone_number_val."';";
+
+echo $selectsql;
 
 $product_type_result = mysqli_query( $conn, $selectsql );
 
@@ -37,7 +38,7 @@ if ( $num_rows <= 0 ) {
         echo '{';
         echo '"status_code" : 200,';
 
-        echo '"status_message" : "Successfuly Signed-In",';
+        echo '"status_message" : "Successfuly Signed-Up",';
         echo '"profile" :'.json_encode( $profileArr );
         echo '}';
 
@@ -45,7 +46,7 @@ if ( $num_rows <= 0 ) {
 
         echo '{';
         echo '"status_code" : 400,';
-        echo '"status_message" : "Failed to Sign-In. Please check your email and password."';
+        echo '"status_message" : "Failed to Signup. These credentials already exist."';
         echo '}';
 
     }
@@ -63,14 +64,14 @@ if ( $num_rows <= 0 ) {
         echo '{';
         echo '"status_code" : 200,';
 
-        echo '"status_message" : "Successfuly Signed-In",';
+        echo '"status_message" : "Successfuly Signed-Up",';
         echo '"profile" :'.json_encode( $profileArr1 );
         echo '}';
 
     } else {
         echo '{';
         echo '"status_code" : 400,';
-        echo '"status_message" : "Failed to Sign-In. Please check your email and password."';
+        echo '"status_message" : "Failed to Signup. Please check your email and password."';
         echo '}';
 
     }

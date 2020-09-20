@@ -12,11 +12,10 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$jsonInput = file_get_contents( 'php://input' );
-$decoded = json_decode( $jsonInput, TRUE );
+$data = json_decode(file_get_contents('php://input'), true);
 
-$phone_number_val        = $decoded['booker_number'];
-$product_id_val        = $decoded['product_id'];
+$phone_number_val        = $data['bookie_phonenumber'];
+$product_id_val        = $data['uniqueid'];
 
 $selectsql = "SELECT  product_id FROM HFBook WHERE booker_number = '".$phone_number_val."' AND product_id = '".$product_id_val."';";
 
@@ -31,12 +30,12 @@ if ( $num_rows <= 0 ) {
 
     if ( mysqli_query( $conn, $sqls ) ) {
 
-        $profileArr = array( 'booker_number'=>$phone_number_val, 'product_id'=>$product_id_val );
+        $profileArr = array( 'bookie_phonenumber'=>$phone_number_val, 'uniqueid'=>$product_id_val );
 
         echo '{';
         echo '"status_code" : 200,';
         echo '"status_message" : "Successfuly requested food",';
-        echo '"profile" :'.json_encode( $profileArr );
+        echo '"booking_reference" :'.json_encode( $profileArr );
         echo '}';
 
     } else {

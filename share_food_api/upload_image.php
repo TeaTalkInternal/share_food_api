@@ -9,8 +9,14 @@ if ( !$conn ) {
 
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
+
+
 $timestampStr = strtotime( $date );
+
+
 $file = $timestampStr.'-'.$_FILES['file']['name'];
+
+  // echo '$file' . $timestampStr;
 
 $file_loc = $_FILES['file']['tmp_name'];
 $file_size = $_FILES['file']['size'];
@@ -32,11 +38,17 @@ $final_file = str_replace( ' ', '-', $new_file_name );
 $trimed_val = trim( $new_file_name, '_file.png' );
 $uniqueid_val = floatval( $trimed_val );
 
+
+
 if ( move_uploaded_file( $file_loc, $folder.$final_file ) )
 {
+    
+
 
     $sql = "INSERT INTO HFFoodImages (filename, filetype, filesize,uniqueid)VALUES('$final_file','$file_type',$new_size,$uniqueid_val);";
     $sql .= "UPDATE HFFoodItem SET image_name =  '".$final_file."' WHERE uniqueid = ".$uniqueid_val.';';
+    
+ 
     if ( mysqli_multi_query( $conn, $sql ) ) {
         echo '{';
         echo '"status_code" : 200,';
@@ -59,5 +71,5 @@ if ( move_uploaded_file( $file_loc, $folder.$final_file ) )
     echo '}';
 
 }
-
+mysqli_close( $conn );
 ?>

@@ -10,11 +10,10 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$jsonInput = file_get_contents( 'php://input' );
-$decoded = json_decode( $jsonInput, TRUE );
+$data = json_decode(file_get_contents('php://input'), true);
 
-$phone_number_val        = $decoded['phonenumber'];
-$product_id_val        = $decoded['uniqueid'];
+$phone_number_val        = $data['phonenumber'];
+$product_id_val        = $data['uniqueid'];
 
 $sql = 'UPDATE HFFoodItem SET isPending =  0 , isbooked = 1 WHERE uniqueid = '.$product_id_val.';';
 

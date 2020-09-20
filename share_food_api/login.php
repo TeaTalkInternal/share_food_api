@@ -12,14 +12,16 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$jsonInput = file_get_contents( 'php://input' );
-$decoded = json_decode( $jsonInput, TRUE );
+$data = json_decode(file_get_contents('php://input'), true);
 
-$username_val             = $decoded['username'];
-$email_val             = $decoded['email'];
-$phone_number_val        = $decoded['phonenumber'];
+
+$username_val = isset( $data['username'] ) ? "".$data['username']."" : '';
+$email_val =  isset( $data['email'] ) ? "".$data['email']."" : '';
+$phone_number_val =  isset( $data['phonenumber'] ) ? "".$data['phonenumber']."" : '';
+
 
 $selectsql = "SELECT  username,email,phonenumber FROM HFLogin WHERE phonenumber = '".$phone_number_val."';";
+
 
 $product_type_result = mysqli_query( $conn, $selectsql );
 

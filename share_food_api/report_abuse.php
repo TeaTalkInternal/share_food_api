@@ -12,12 +12,14 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$jsonInput = file_get_contents( 'php://input' );
-$decoded = json_decode( $jsonInput, TRUE );
 
-$uniqueid_val          = isset( $decoded['uniqueid'] ) ? ''.$decoded['name'].'' : 1;
+$data = json_decode(file_get_contents('php://input'), true);
 
-$sql = 'UPDATE HFProduct SET reportedabuse =  1 WHERE uniqueid = '.$uniqueid_val.';';
+$uniqueid_val          = isset( $data['uniqueid'] ) ? ''.$data['uniqueid'].'' : 1;
+
+$sql = 'UPDATE HFFoodItem SET reportedabuse =  1 WHERE uniqueid = '.$uniqueid_val.';';
+
+//echo $sql;
 
 if ( mysqli_query( $conn, $sql ) ) {
     echo '{';

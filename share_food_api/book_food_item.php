@@ -10,16 +10,17 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$jsonInput = file_get_contents( 'php://input' );
-$decoded = json_decode( $jsonInput, TRUE );
+$data = json_decode(file_get_contents('php://input'), true);
 
-$phone_number_val        = $decoded['bookiePhonenumber'];
-$product_id_val        = $decoded['uniqueid'];
+$phone_number_val        = $data['bookie_phonenumber'];
+$product_id_val        = $data['uniqueid'];
 
 $sql = "UPDATE HFFoodItem SET ispending =  1, bookiePhonenumber = '".$phone_number_val."' WHERE uniqueid = ".$product_id_val.';';
 
 $sql .= "INSERT INTO HFBook (booker_number, product_id)
  VALUES ('$phone_number_val',$product_id_val);";
+ 
+ 
 if ( mysqli_multi_query( $conn, $sql ) ) {
 
     echo '{';

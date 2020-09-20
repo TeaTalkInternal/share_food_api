@@ -12,7 +12,9 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$phone_number_val        = isset( $_GET['phonenumber'] ) ? "'".$_GET['phonenumber']."'" : 0;
+$data = json_decode(file_get_contents('php://input'), true);
+
+$phone_number_val        = isset( $data['phonenumber'] ) ? "'".$data['phonenumber']."'" : 0;
 
 $selectsql = 'SELECT  phonenumber FROM HFLogin WHERE phonenumber = '.$phone_number_val.';';
 

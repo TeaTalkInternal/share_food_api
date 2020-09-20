@@ -1,19 +1,18 @@
 <?php require 'db_connect_host_credentials.php';
 
-if ( !$link = @mysql_connect( $host_name, $db_user_name, $db_user_password ) ) {
+$conn = mysqli_connect( $host_name, $db_user_name, $db_user_password, $db_name );
 
+if ( !$conn ) {
     echo 'Could not connect to mysql';
-    exit;
-}
-
-if ( !mysql_select_db( $db_name, $link ) ) {
-    echo 'Could not select database';
     exit;
 }
 
 date_default_timezone_set( 'Asia/Kolkata' );
 
-$phone_number_val        = isset( $_GET['phonenumber'] ) ? "'".$_GET['phonenumber']."'" : 0;
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+$phone_number_val        = isset( $data['phonenumber'] ) ? "'".$data['phonenumber']."'" : 0;
 
 $sql = "SELECT name,
 itemname,
@@ -36,9 +35,10 @@ fri,
 sat,
 sun,
 is_needy
-         FROM HFFoodItem where phonenumber == ".$phone_number_val.' and istaken = 0;';
+         FROM HFFoodItem where phonenumber = ".$phone_number_val.' and istaken = 0;';
+         
 
-$product_type_result = mysql_query( $sql, $link );
+$product_type_result = mysqli_query( $conn, $sql );
 
 if ( !$product_type_result ) {
 
@@ -51,7 +51,7 @@ if ( !$product_type_result ) {
 
 $response_array = array();
 
-while ( $row = mysql_fetch_assoc( $product_type_result ) ) {
+while ( $row = mysqli_fetch_assoc( $product_type_result ) ) {
 
     $tmpBusArray = array(
 
@@ -97,6 +97,6 @@ if ( count( $response_array ) >= 0 ) {
 
 }
 
-mysql_free_result( $product_type_result );
-
+mysqli_free_result( $product_type_result );
+mysqli_close( $conn );
 ?>

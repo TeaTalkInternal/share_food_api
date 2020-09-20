@@ -10,8 +10,8 @@ if ( !$conn ) {
 date_default_timezone_set( 'Asia/Kolkata' );
 $date = date( 'Y/m/d h:i:s', time() );
 
-$jsonInput = file_get_contents( 'php://input' );
-$decoded = json_decode( $jsonInput, TRUE );
+
+$decoded = json_decode(file_get_contents('php://input'), true);
 
 $username_val        = isset( $decoded['name'] ) ? "'".$decoded['name']."'" : '\'\'';
 $productname_val     = isset( $decoded['itemname'] ) ? "'".$decoded['itemname']."'" : '\'\'';
@@ -57,27 +57,7 @@ $is_needy = isset( $decoded['is_needy'] ) ? ''.$decoded['is_needy'].'' : 0;
 $foodType_val         = isset( $decoded['food_type'] ) ? ''.$decoded['food_type'].'' : 0;
 $expirydate_val      = isset( $decoded['expiry_date'] ) ? ''.$decoded['expiry_date'].'' : 0;
 
-$timestampStr = strtotime( $date );
-$file = $timestampStr.'-'.$_FILES['file']['name'];
-$file_loc = $_FILES['file']['tmp_name'];
-$file_size = $_FILES['file']['size'];
-$file_type = $_FILES['file']['type'];
-$folder = 'uploads/';
 
-// new file size in KB
-$new_size = $file_size/1024;
-
-// new file size in KB
-
-// make file name in lower case
-$new_file_name = strtolower( $file );
-// make file name in lower case
-
-$final_file = str_replace( ' ', '-', $new_file_name );
-
-if ( move_uploaded_file( $file_loc, $folder.$final_file ) ) {
-
-}
 
 $sql = "INSERT INTO HFFoodItem (name,itemname,uniqueid,reportedabuse,phonenumber,alternate_phonenumber,email,description,istaken,isbooked,uploaddate,address,lat,lng,is_regular,mon,tue,wed,thur,fri,sat,sun,is_needy,serves_count,pickat_date,pickby_date,ispending,bookiePhonenumber,image_name,food_type,expiry_date)
 VALUES ($username_val,
@@ -111,6 +91,7 @@ VALUES ($username_val,
     $image_name_val,
     $foodType_val,
     $expirydate_val);";
+    
 
 if ( mysqli_query( $conn, $sql ) ) {
 
