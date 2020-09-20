@@ -12,6 +12,9 @@ There are thousands of people out there starving... This API is written with int
 - Setup your mysql using the SQL_dump.sql file
 - Add your credentials in db_connect_host_credentials.php
 
+
+## You may also use the following API hosted at http://teatalk.one/share_food_api
+
 Here you go. Now start using the following APIs and create beautiful and usefull apps.
 
 ## Version: 1.0
