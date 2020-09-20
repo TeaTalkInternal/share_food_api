@@ -13,7 +13,7 @@ There are thousands of people out there starving... This API is written with int
 - Add your credentials in db_connect_host_credentials.php
 
 
-## You may also use the following API hosted at http://teatalk.one/share_food_api
+#### You may also use the following API hosted at http://teatalk.one/share_food_api
 
 Here you go. Now start using the following APIs and create beautiful and usefull apps.
 
